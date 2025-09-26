@@ -207,14 +207,7 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="alert alert-light border">
-                      <div className="d-flex align-items-start gap-2">
-                        <span className="badge bg-secondary">Note</span>
-                        <div>
-                          This is a demo UI using UX4G styles. Replace the analyze logic with your API.
-                        </div>
-                      </div>
-                    </div>
+                    
                   </>
                 )}
               </div>
