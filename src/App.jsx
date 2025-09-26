@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import sampleGangatiri from './assets/images/gangatiri-cattle.webp'
+import sampleGir from './assets/images/gir_cow_65e8d0ae-3aa3-4b0a-a5cb-9b03a3c4770f_600x600.webp'
 
 function App() {
   const [file, setFile] = useState(null)
@@ -21,6 +23,32 @@ function App() {
 
     // Reset previous results
     setResults(null)
+  }
+
+  async function handleSampleClick(sampleUrl, suggestedName) {
+    try {
+      // Reset previous results
+      setResults(null)
+
+      // Fetch the asset and create a File to mimic a user upload
+      const response = await fetch(sampleUrl)
+      const blob = await response.blob()
+      const fileFromSample = new File([blob], suggestedName, { type: blob.type || 'image/webp' })
+
+      setFile(fileFromSample)
+
+      // Revoke previous url and set a new one for preview
+      setPreviewUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev)
+        return URL.createObjectURL(fileFromSample)
+      })
+
+      // Also update the hidden/native input so Reset works intuitively
+      const input = document.getElementById('cattleImage')
+      if (input) input.value = ''
+    } catch (err) {
+      console.error('Failed to load sample image', err)
+    }
   }
 
   function resetForm() {
@@ -89,6 +117,30 @@ function App() {
                   <input id="cattleImage" className="form-control" type="file" accept="image/*" onChange={(e) => handleFileChange(e)} />
                   <div className="form-text">Supported: JPG, PNG. Max ~5MB.</div>
                 </div>
+
+              <div className="mb-3">
+                <div className="form-label mb-2">Or pick a sample</div>
+                <div className="d-flex gap-2">
+                  <button
+                    type="button"
+                    className="btn p-0 border rounded overflow-hidden"
+                    onClick={() => handleSampleClick(sampleGangatiri, 'gangatiri-cattle.webp')}
+                    title="Use Gangatiri sample"
+                    style={{ width: 96, height: 72 }}
+                  >
+                    <img src={sampleGangatiri} alt="Gangatiri sample" className="object-fit-cover w-100 h-100" />
+                  </button>
+                  <button
+                    type="button"
+                    className="btn p-0 border rounded overflow-hidden"
+                    onClick={() => handleSampleClick(sampleGir, 'gir-cow.webp')}
+                    title="Use Gir sample"
+                    style={{ width: 96, height: 72 }}
+                  >
+                    <img src={sampleGir} alt="Gir sample" className="object-fit-cover w-100 h-100" />
+                  </button>
+                </div>
+              </div>
 
                 {previewUrl && (
                   <div className="mb-3">
