@@ -76,6 +76,10 @@ function App() {
         heightCm: 120 + (score % 10),
         lengthCm: 150 + ((score + 7) % 12),
         girthCm: 160 + ((score + 13) % 15),
+        bodyLength: 140 + ((score + 5) % 8),
+        heightAtWithers: 125 + ((score + 3) % 7),
+        chestWidth: 45 + ((score + 11) % 6),
+        rumpAngle: 15 + ((score + 9) % 5),
         bodyCondition: score > 70 ? 'Good' : score > 55 ? 'Moderate' : 'Lean',
         score,
       })
@@ -96,9 +100,9 @@ function App() {
     <>
       <header className="container py-3">
         <div className="row align-items-center">
-          <div className="col">
-            <h1 className="h3 m-0">Cattle Trait Analyzer</h1>
-            <p className="text-muted m-0">Upload a cattle image to estimate physical traits and score</p>
+          <div className="col-12">
+            <h1 className="h3 m-0 text-center text-md-start">Cattle Trait Analyzer</h1>
+            <p className="text-muted m-0 text-center text-md-start">Upload a cattle image to estimate physical traits and score</p>
           </div>
         </div>
       </header>
@@ -107,7 +111,7 @@ function App() {
         <div className="row g-3">
           <div className="col-12 col-lg-5">
             <div className="card">
-              <div className="card-header d-flex align-items-center justify-content-between">
+              <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
                 <span className="fw-600">Upload Image</span>
                 <span className="badge bg-primary">Step 1</span>
               </div>
@@ -120,13 +124,13 @@ function App() {
 
               <div className="mb-3">
                 <div className="form-label mb-2">Or pick a sample</div>
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 flex-wrap justify-content-center justify-content-md-start">
                   <button
                     type="button"
                     className="btn p-0 border rounded overflow-hidden"
                     onClick={() => handleSampleClick(sampleGangatiri, 'gangatiri-cattle.webp')}
                     title="Use Gangatiri sample"
-                    style={{ width: 96, height: 72 }}
+                    style={{ width: 96, height: 72, minWidth: 96 }}
                   >
                     <img src={sampleGangatiri} alt="Gangatiri sample" className="object-fit-cover w-100 h-100" />
                   </button>
@@ -135,7 +139,7 @@ function App() {
                     className="btn p-0 border rounded overflow-hidden"
                     onClick={() => handleSampleClick(sampleGir, 'gir-cow.webp')}
                     title="Use Gir sample"
-                    style={{ width: 96, height: 72 }}
+                    style={{ width: 96, height: 72, minWidth: 96 }}
                   >
                     <img src={sampleGir} alt="Gir sample" className="object-fit-cover w-100 h-100" />
                   </button>
@@ -150,11 +154,11 @@ function App() {
                   </div>
                 )}
 
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary" disabled={!previewUrl || isAnalyzing} onClick={analyze}>
+                <div className="d-flex gap-2 flex-wrap">
+                  <button className="btn btn-primary flex-fill flex-md-grow-0" disabled={!previewUrl || isAnalyzing} onClick={analyze}>
                     {isAnalyzing ? 'Analyzing…' : 'Analyze Traits'}
                   </button>
-                  <button className="btn btn-secondary" disabled={!previewUrl || isAnalyzing} onClick={resetForm}>
+                  <button className="btn btn-secondary flex-fill flex-md-grow-0" disabled={!previewUrl || isAnalyzing} onClick={resetForm}>
                     Reset
                   </button>
                 </div>
@@ -164,7 +168,7 @@ function App() {
 
           <div className="col-12 col-lg-7">
             <div className="card h-100">
-              <div className="card-header d-flex align-items-center justify-content-between">
+              <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
                 <span className="fw-600">Results</span>
                 <span className="badge bg-success">Step 2</span>
               </div>
@@ -176,30 +180,46 @@ function App() {
                 {results && (
                   <>
                     <div className="row g-3 mb-3">
-                      <div className="col-12 col-md-6">
+                      <div className="col-12 col-lg-6">
                         <div className="list-group">
-                          <div className="list-group-item d-flex justify-content-between align-items-center">
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <span>Height</span>
                             <span className="fw-600">{results.heightCm} cm</span>
                           </div>
-                          <div className="list-group-item d-flex justify-content-between align-items-center">
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <span>Length</span>
                             <span className="fw-600">{results.lengthCm} cm</span>
                           </div>
-                          <div className="list-group-item d-flex justify-content-between align-items-center">
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <span>Girth</span>
                             <span className="fw-600">{results.girthCm} cm</span>
                           </div>
-                          <div className="list-group-item d-flex justify-content-between align-items-center">
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span>Body Length</span>
+                            <span className="fw-600">{results.bodyLength} cm</span>
+                          </div>
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span>Height at Withers</span>
+                            <span className="fw-600">{results.heightAtWithers} cm</span>
+                          </div>
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span>Chest Width</span>
+                            <span className="fw-600">{results.chestWidth} cm</span>
+                          </div>
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span>Rump Angle</span>
+                            <span className="fw-600">{results.rumpAngle}°</span>
+                          </div>
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <span>Body Condition</span>
                             <span className="badge bg-info">{results.bodyCondition}</span>
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-6">
+                      <div className="col-12 col-lg-6">
                         <div className="border rounded p-3 h-100 d-flex flex-column justify-content-center align-items-center">
                           <div className="display-5 fw-700 mb-1">{results.score}/100</div>
-                          <div className="text-muted">Composite Trait Score</div>
+                          <div className="text-muted text-center">Composite Trait Score</div>
                           <div className="progress w-100 mt-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={results.score}>
                             <div className="progress-bar bg-success" style={{ width: `${results.score}%` }}></div>
                           </div>
