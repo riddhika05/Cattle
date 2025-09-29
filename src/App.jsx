@@ -71,16 +71,16 @@ function App() {
     setTimeout(() => {
       // Lightweight deterministic-ish score based on file size if available
       const base = file && file.size ? file.size % 100 : Math.floor(Math.random() * 100)
-      const score = Math.max(35, Math.min(95, base))
+      const score = Math.max(1, Math.min(9, Math.floor((base / 100) * 8) + 1))
       setResults({
-        heightCm: 120 + (score % 10),
-        lengthCm: 150 + ((score + 7) % 12),
-        girthCm: 160 + ((score + 13) % 15),
-        bodyLength: 140 + ((score + 5) % 8),
-        heightAtWithers: 125 + ((score + 3) % 7),
-        chestWidth: 45 + ((score + 11) % 6),
-        rumpAngle: 15 + ((score + 9) % 5),
-        bodyCondition: score > 70 ? 'Good' : score > 55 ? 'Moderate' : 'Lean',
+        heightCm: 120 + (score * 2),
+        lengthCm: 150 + (score * 3),
+        girthCm: 160 + (score * 2),
+        bodyLength: 140 + (score * 2),
+        heightAtWithers: 125 + (score * 2),
+        chestWidth: 45 + (score * 2),
+        rumpAngle: 15 + (score * 2),
+        bodyCondition: score > 7 ? 'Excellent' : score > 5 ? 'Good' : score > 3 ? 'Moderate' : 'Poor',
         score,
       })
       setIsAnalyzing(false)
@@ -218,10 +218,10 @@ function App() {
                       </div>
                       <div className="col-12 col-lg-6">
                         <div className="border rounded p-3 h-100 d-flex flex-column justify-content-center align-items-center">
-                          <div className="display-5 fw-700 mb-1">{results.score}/100</div>
+                          <div className="display-5 fw-700 mb-1">{results.score}/9</div>
                           <div className="text-muted text-center">Composite Trait Score</div>
-                          <div className="progress w-100 mt-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={results.score}>
-                            <div className="progress-bar bg-success" style={{ width: `${results.score}%` }}></div>
+                          <div className="progress w-100 mt-3" role="progressbar" aria-valuemin="1" aria-valuemax="9" aria-valuenow={results.score}>
+                            <div className="progress-bar bg-success" style={{ width: `${(results.score / 9) * 100}%` }}></div>
                           </div>
                         </div>
                       </div>
